@@ -1,12 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'card_content.dart';
-
-const bottomContainerHeight = 80;
-const activeColor = Color(0xff546E7A);
-const inActiveColor = Color(0xff546E6A);
-const bottomContainerColor = Color(0xffE91E62);
+import 'constants.dart';
 
 enum Gender { male, female, hold }
 
@@ -17,6 +14,9 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender = Gender.hold;
+  int height = 170;
+  int weight = 70;
+  int age = 17;
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,8 @@ class _InputPageState extends State<InputPage> {
                     },
                     child: ReusableCard(
                       selectedGender == Gender.male
-                          ? inActiveColor
-                          : activeColor,
+                          ? kInActiveColor
+                          : kActiveColor,
                       CustomIconWidget(FontAwesomeIcons.male, 'MALE'),
                     ),
                   ),
@@ -55,8 +55,8 @@ class _InputPageState extends State<InputPage> {
                     },
                     child: ReusableCard(
                       selectedGender == Gender.female
-                          ? inActiveColor
-                          : activeColor,
+                          ? kInActiveColor
+                          : kActiveColor,
                       CustomIconWidget(FontAwesomeIcons.female, 'FEMALE'),
                     ),
                   ),
@@ -66,29 +66,115 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              activeColor,
+              kActiveColor,
               Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Height'),
-                  Slider(value: 170, onChanged: onChanged)
+                  Center(
+                    child: Text(
+                      'HEIGHT',
+                      style: kLabelTextStyle,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        height.toString(),
+                        style: kNumTextStyle,
+                      ),
+                      Text(
+                        ' cm',
+                        style: kLabelTextStyle,
+                      ),
+                    ],
+                  ),
+                  Slider(
+                    value: height.toDouble(),
+                    min: 120.0,
+                    max: 220.0,
+                    activeColor: kBottomContainerColor,
+                    inactiveColor: Colors.white,
+                    onChanged: (double value) {
+                      setState(() {
+                        height = value.round();
+                      });
+                    },
+                  )
                 ],
               ),
             ),
           ),
-          /*      Expanded(
+          Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: ReusableCard(activeColor, CustomIconWidget()),
+                  child: ReusableCard(
+                      kActiveColor,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'WEIGHT',
+                            style: kLabelTextStyle,
+                          ),
+                          Text(
+                            weight.toString(),
+                            style: kNumTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add,
+                                size: 40.0,
+                              ),
+                              Icon(
+                                CupertinoIcons.minus,
+                                size: 40.0,
+                              ),
+                            ],
+                          )
+                        ],
+                      )),
                 ),
                 Expanded(
-                  child: ReusableCard(activeColor, CustomIconWidget()),
+                  child: ReusableCard(
+                    kActiveColor,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add,
+                              size: 40.0,
+                            ),
+                            Icon(
+                              CupertinoIcons.minus,
+                              size: 40.0,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
-          ),*/
+          ),
           Container(
-            color: bottomContainerColor,
+            color: kBottomContainerColor,
             width: double.infinity,
             height: 80.0,
             margin: EdgeInsets.only(top: 10.0),
