@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import '../constants.dart';
 
 class CustomIconWidget extends StatelessWidget {
   CustomIconWidget(this.customIcon, this.iconName);

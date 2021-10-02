@@ -1,9 +1,13 @@
+import 'package:bmi_calculator/screens/results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'reusable_card.dart';
-import 'card_content.dart';
-import 'constants.dart';
+import '../componants/reusable_card.dart';
+import '../componants/card_content.dart';
+import '../constants.dart';
+import '../componants/round_icon_button.dart';
+import 'package:bmi_calculator/componants/bottom_button.dart';
+import 'package:bmi_calculator/bmi_brain.dart';
 
 enum Gender { male, female, hold }
 
@@ -79,13 +83,15 @@ class _InputPageState extends State<InputPage> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
                         height.toString(),
                         style: kNumTextStyle,
                       ),
                       Text(
-                        ' cm',
+                        'cm',
                         style: kLabelTextStyle,
                       ),
                     ],
@@ -126,14 +132,19 @@ class _InputPageState extends State<InputPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.add,
-                                size: 40.0,
+                              RoundIconButton(FontAwesomeIcons.minus, () {
+                                setState(() {
+                                  weight--;
+                                });
+                              }),
+                              SizedBox(
+                                width: 10.0,
                               ),
-                              Icon(
-                                CupertinoIcons.minus,
-                                size: 40.0,
-                              ),
+                              RoundIconButton(FontAwesomeIcons.plus, () {
+                                setState(() {
+                                  weight++;
+                                });
+                              })
                             ],
                           )
                         ],
@@ -156,14 +167,19 @@ class _InputPageState extends State<InputPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.add,
-                              size: 40.0,
+                            RoundIconButton(FontAwesomeIcons.minus, () {
+                              setState(() {
+                                age--;
+                              });
+                            }),
+                            SizedBox(
+                              width: 10.0,
                             ),
-                            Icon(
-                              CupertinoIcons.minus,
-                              size: 40.0,
-                            ),
+                            RoundIconButton(FontAwesomeIcons.plus, () {
+                              setState(() {
+                                age++;
+                              });
+                            })
                           ],
                         )
                       ],
@@ -173,12 +189,19 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
-          Container(
-            color: kBottomContainerColor,
-            width: double.infinity,
-            height: 80.0,
-            margin: EdgeInsets.only(top: 10.0),
-          )
+          BottomButton(() {
+            BmiBrain calculator = BmiBrain(height, weight);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ResultsPage(
+                  calculator.calculateBmi(),
+                  calculator.getResult(),
+                  calculator.getDescription(),
+                ),
+              ),
+            );
+          }, 'Calculate')
         ],
       ),
     );
