@@ -26,7 +26,7 @@ class BmiBrain {
   String getDescription() {
     if (_bmi >= 25.0) {
       return 'You have higher than normal body weight.\n Try to exercise more..';
-    } else if (_bmi > 18.5) {
+    } else if (_bmi >= 18.5) {
       return 'You have a normal body weight.\n good job.';
     } else {
       return 'You have lower than normal body weight.\n You can eat a bit more..';
